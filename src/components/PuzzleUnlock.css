@@ -1,0 +1,116 @@
+.puzzle-unlock-container {
+  min-height: 100vh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 40px 20px;
+}
+
+.puzzle-content {
+  max-width: 600px;
+  width: 100%;
+  text-align: center;
+}
+
+.lock-icon {
+  font-size: 5rem;
+  margin-bottom: 30px;
+  filter: drop-shadow(0 0 20px rgba(255, 255, 255, 0.3));
+}
+
+.puzzle-title {
+  color: #fff;
+  font-size: 2.2rem;
+  margin-bottom: 50px;
+  text-shadow: 0 0 20px rgba(255, 255, 255, 0.5);
+  line-height: 1.4;
+}
+
+.puzzle-form {
+  display: flex;
+  flex-direction: column;
+  gap: 25px;
+}
+
+.puzzle-question {
+  color: #fff;
+  font-size: 1.5rem;
+  font-weight: 500;
+}
+
+.puzzle-input {
+  padding: 20px;
+  font-size: 1.2rem;
+  border: 2px solid rgba(255, 255, 255, 0.3);
+  border-radius: 15px;
+  background: rgba(255, 255, 255, 0.1);
+  color: #fff;
+  text-align: center;
+  backdrop-filter: blur(10px);
+  transition: all 0.3s ease;
+}
+
+.puzzle-input:focus {
+  outline: none;
+  border-color: rgba(102, 126, 234, 0.8);
+  box-shadow: 0 0 20px rgba(102, 126, 234, 0.4);
+}
+
+.puzzle-input::placeholder {
+  color: rgba(255, 255, 255, 0.5);
+}
+
+.puzzle-hint {
+  color: rgba(255, 255, 255, 0.7);
+  font-size: 1rem;
+  font-style: italic;
+  margin-top: -10px;
+}
+
+.puzzle-submit {
+  padding: 18px 40px;
+  font-size: 1.3rem;
+  font-weight: bold;
+  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+  color: white;
+  border: none;
+  border-radius: 50px;
+  cursor: pointer;
+  box-shadow: 0 10px 30px rgba(102, 126, 234, 0.4);
+  transition: all 0.3s ease;
+}
+
+.puzzle-submit:hover {
+  box-shadow: 0 15px 40px rgba(102, 126, 234, 0.6);
+}
+
+.error-message {
+  color: #ff6b6b;
+  font-size: 1.2rem;
+  font-weight: bold;
+  margin-top: 20px;
+  text-shadow: 0 0 10px rgba(255, 107, 107, 0.5);
+}
+
+.unlock-success {
+  text-align: center;
+}
+
+.success-icon {
+  font-size: 6rem;
+  margin-bottom: 30px;
+  filter: drop-shadow(0 0 30px rgba(255, 255, 255, 0.5));
+}
+
+.success-text {
+  color: #fff;
+  font-size: 3rem;
+  margin-bottom: 20px;
+  text-shadow: 0 0 30px rgba(255, 255, 255, 0.8);
+}
+
+.success-subtitle {
+  color: rgba(255, 255, 255, 0.8);
+  font-size: 1.5rem;
+  font-style: italic;
+}

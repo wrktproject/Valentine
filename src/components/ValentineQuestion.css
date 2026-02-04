@@ -1,0 +1,168 @@
+.valentine-question-container {
+  min-height: 100vh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 40px 20px;
+  position: relative;
+  overflow: hidden;
+  background: radial-gradient(ellipse at center, #0a0a0f 0%, #030610 100%);
+}
+
+.pink-stars-container {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  pointer-events: none;
+  z-index: 0;
+}
+
+.pink-star {
+  position: absolute;
+  border-radius: 50%;
+}
+
+.subtle-pink-glow {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: radial-gradient(ellipse at center, rgba(255, 105, 180, 0.2) 0%, transparent 70%);
+  pointer-events: none;
+  z-index: 0;
+}
+
+.question-content {
+  text-align: center;
+  max-width: 600px;
+  position: relative;
+  z-index: 10;
+}
+
+.valentine-title {
+  color: #fff;
+  font-size: 3.5rem;
+  margin-bottom: 60px;
+  text-shadow: 0 0 30px rgba(255, 255, 255, 0.8),
+               0 0 60px rgba(255, 255, 255, 0.5);
+  line-height: 1.3;
+}
+
+.buttons-container {
+  position: relative;
+  min-height: 200px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.yes-button {
+  padding: 25px 60px;
+  font-size: 2rem;
+  font-weight: bold;
+  background: linear-gradient(135deg, #ff1493 0%, #ff69b4 100%);
+  color: white;
+  border: 3px solid #fff;
+  border-radius: 50px;
+  cursor: pointer;
+  box-shadow: 0 10px 40px rgba(255, 105, 180, 0.4);
+  transition: all 0.3s ease;
+  position: relative;
+  z-index: 10;
+}
+
+.yes-button:hover {
+  transform: scale(1.1);
+  box-shadow: 0 15px 60px rgba(255, 105, 180, 0.8);
+}
+
+.no-button {
+  padding: 12px 30px;
+  font-size: 1rem;
+  background: rgba(255, 255, 255, 0.3);
+  color: rgba(255, 255, 255, 0.8);
+  border: 1px solid rgba(255, 255, 255, 0.5);
+  border-radius: 25px;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  backdrop-filter: blur(5px);
+}
+
+.hint-text {
+  color: rgba(255, 255, 255, 0.9);
+  font-size: 1rem;
+  margin-top: 40px;
+  font-style: italic;
+  text-shadow: 0 0 10px rgba(255, 255, 255, 0.3);
+}
+
+.success-celebration {
+  text-align: center;
+  position: relative;
+  z-index: 10;
+}
+
+.hearts-explosion {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  pointer-events: none;
+}
+
+.flying-heart {
+  position: absolute;
+  font-size: 2rem;
+  pointer-events: none;
+}
+
+.celebration-title {
+  color: #fff;
+  font-size: 4rem;
+  margin-bottom: 30px;
+  text-shadow: 0 0 30px rgba(255, 255, 255, 1),
+               0 0 60px rgba(255, 255, 255, 0.8);
+}
+
+.celebration-message {
+  color: #fff;
+  font-size: 2rem;
+  margin-bottom: 30px;
+  text-shadow: 0 0 20px rgba(255, 255, 255, 0.6);
+}
+
+.final-hearts {
+  font-size: 3rem;
+  animation: float 3s ease-in-out infinite;
+}
+
+@keyframes float {
+  0%, 100% {
+    transform: translateY(0);
+  }
+  50% {
+    transform: translateY(-20px);
+  }
+}
+
+@media (max-width: 768px) {
+  .valentine-title {
+    font-size: 2.5rem;
+  }
+
+  .yes-button {
+    padding: 20px 50px;
+    font-size: 1.5rem;
+  }
+
+  .celebration-title {
+    font-size: 2.5rem;
+  }
+
+  .celebration-message {
+    font-size: 1.5rem;
+  }
+}

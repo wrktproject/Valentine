@@ -1,0 +1,22 @@
+.app-container {
+  width: 100vw;
+  min-height: 100vh;
+  position: relative;
+  overflow: hidden;
+}
+
+.app-container.pink-stars .galaxy-background {
+  --star-color: #ff69b4;
+  --star-glow: rgba(255, 105, 180, 0.9);
+}
+
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+body {
+  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+  overflow-x: hidden;
+}

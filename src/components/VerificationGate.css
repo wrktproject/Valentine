@@ -1,0 +1,135 @@
+.verification-gate {
+  height: 100vh;
+  width: 100vw;
+  padding: 20px;
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  overflow: hidden;
+  background: #ffffff;
+  color: #111827;
+}
+
+.verification-darken {
+  position: fixed;
+  inset: 0;
+  background: #0a0a0f;
+  z-index: 1;
+  pointer-events: none;
+}
+
+.verification-gate > *:not(.verification-darken) {
+  position: relative;
+  z-index: 2;
+}
+
+.verification-title {
+  color: #0f172a;
+  font-size: 2rem;
+  text-align: center;
+  margin-bottom: 8px;
+  text-shadow: none;
+}
+
+.verification-subtitle {
+  color: #475569;
+  font-size: 1.1rem;
+  margin-bottom: 20px;
+}
+
+.floating-questions {
+  position: relative;
+  width: 100%;
+  max-width: 1000px;
+  height: 380px;
+}
+
+.question-card {
+  position: absolute;
+  width: 210px;
+  padding: 16px;
+  background: #ffffff;
+  border: 1px solid #e2e8f0;
+  border-radius: 16px;
+  box-shadow: 0 10px 25px rgba(15, 23, 42, 0.1);
+}
+
+.question-label {
+  color: #0f172a;
+  font-size: 0.95rem;
+  margin-bottom: 10px;
+}
+
+.question-input {
+  width: 100%;
+  padding: 8px 10px;
+  border-radius: 10px;
+  border: 1px solid #cbd5e1;
+  background: #f8fafc;
+  color: #0f172a;
+  font-size: 0.95rem;
+}
+
+.question-input:focus {
+  outline: none;
+  border-color: #7c3aed;
+  box-shadow: 0 0 0 3px rgba(124, 58, 237, 0.2);
+}
+
+.verification-form {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 12px;
+  margin-top: 10px;
+}
+
+.verification-button {
+  padding: 12px 32px;
+  border-radius: 999px;
+  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+  color: #fff;
+  font-size: 1rem;
+  font-weight: 600;
+  box-shadow: 0 8px 25px rgba(102, 126, 234, 0.4);
+}
+
+.verification-dev-button {
+  background: #0f172a;
+  box-shadow: 0 8px 20px rgba(15, 23, 42, 0.25);
+  font-size: 0.9rem;
+  padding: 10px 26px;
+}
+
+.verification-error {
+  color: #e11d48;
+  font-size: 0.95rem;
+  text-shadow: none;
+}
+
+@media (max-width: 900px) {
+  .floating-questions {
+    height: 450px;
+  }
+
+  .question-card {
+    width: 180px;
+  }
+}
+
+@media (max-width: 600px) {
+  .verification-title {
+    font-size: 1.6rem;
+  }
+
+  .floating-questions {
+    height: 500px;
+  }
+
+  .question-card {
+    width: 160px;
+    padding: 12px;
+  }
+}

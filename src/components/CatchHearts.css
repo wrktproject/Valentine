@@ -1,0 +1,134 @@
+.catch-hearts-container {
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding: 40px 20px;
+  position: relative;
+}
+
+.hearts-header {
+  text-align: center;
+  margin-bottom: 40px;
+  z-index: 10;
+}
+
+.hearts-header h1 {
+  color: #fff;
+  font-size: 2.5rem;
+  margin-bottom: 20px;
+  text-shadow: 0 0 20px rgba(255, 255, 255, 0.5);
+}
+
+.hearts-counter {
+  color: #fff;
+  font-size: 1.5rem;
+  background: rgba(255, 255, 255, 0.08);
+  padding: 10px 30px;
+  border-radius: 50px;
+  display: inline-block;
+  backdrop-filter: blur(10px);
+  border: 1px solid rgba(255, 255, 255, 0.15);
+}
+
+.hearts-area {
+  position: relative;
+  width: 100%;
+  max-width: 1000px;
+  height: 500px;
+  flex: 1;
+}
+
+.hearts-frames {
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  z-index: 1;
+}
+
+.hearts-frame {
+  position: absolute;
+  border-radius: 16px;
+  padding: 8px;
+  background: rgba(255, 255, 255, 0.05);
+  border: 1px solid rgba(255, 255, 255, 0.18);
+  box-shadow: 0 12px 30px rgba(0, 0, 0, 0.35);
+  backdrop-filter: blur(6px);
+}
+
+.hearts-frame img {
+  display: block;
+  width: 100%;
+  height: auto;
+  border-radius: 12px;
+  object-fit: contain;
+}
+
+.heart-explosion {
+  position: absolute;
+  pointer-events: none;
+  z-index: 5;
+}
+
+.heart-splash {
+  position: absolute;
+  left: -18px;
+  top: -18px;
+  width: 36px;
+  height: 36px;
+  border-radius: 45% 55% 60% 40% / 55% 45% 55% 45%;
+  background: radial-gradient(circle at 30% 30%, rgba(255, 255, 255, 0.6), rgba(255, 105, 180, 0.9));
+  box-shadow: 0 0 20px rgba(255, 105, 180, 0.8);
+}
+
+.heart-droplet {
+  position: absolute;
+  border-radius: 40% 60% 50% 50% / 60% 40% 60% 40%;
+  background: radial-gradient(circle at 30% 30%, rgba(255, 255, 255, 0.7), rgba(255, 105, 180, 0.95));
+  box-shadow: 0 0 16px rgba(255, 105, 180, 0.75);
+  filter: blur(0.1px);
+}
+
+.floating-heart {
+  position: absolute;
+  font-size: 3rem;
+  cursor: pointer;
+  user-select: none;
+  color: rgba(255, 255, 255, 0.9);
+  text-shadow: 0 0 12px rgba(255, 255, 255, 0.5);
+  transition: transform 0.3s ease;
+  z-index: 5;
+}
+
+.floating-heart:hover {
+  transform: scale(1.1);
+}
+
+.heart-message {
+  position: absolute;
+  transform: translate(-50%, -120%);
+  background: rgba(10, 10, 15, 0.85);
+  color: #f1f5f9;
+  padding: 22px 36px;
+  border-radius: 16px;
+  font-size: 1.2rem;
+  font-weight: 600;
+  box-shadow: 0 18px 50px rgba(0, 0, 0, 0.45);
+  z-index: 100;
+  text-align: center;
+  max-width: 80%;
+  border: 1px solid rgba(255, 255, 255, 0.12);
+}
+
+.completion-message {
+  position: fixed;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  color: #fff;
+  font-size: 2.5rem;
+  font-weight: bold;
+  text-shadow: 0 0 30px rgba(255, 255, 255, 0.8);
+  z-index: 100;
+  text-align: center;
+}
