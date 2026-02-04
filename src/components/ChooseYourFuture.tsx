@@ -13,6 +13,7 @@ export const ChooseYourFuture = ({ onComplete }: ChooseYourFutureProps) => {
   const [currentStep, setCurrentStep] = useState(0);
   const [displayedText, setDisplayedText] = useState('');
   const [showCursor, setShowCursor] = useState(true);
+  const [typingDone, setTypingDone] = useState(false);
 
   const steps = [
     {
@@ -102,10 +103,13 @@ export const ChooseYourFuture = ({ onComplete }: ChooseYourFutureProps) => {
         setDisplayedText(currentStepData.text.slice(0, index + 1));
         index += 1;
         setTimeout(typeNext, delay);
+      } else {
+        setTypingDone(true);
       }
     };
 
     setDisplayedText('');
+    setTypingDone(false);
     typeNext();
 
     return () => {
@@ -159,22 +163,24 @@ export const ChooseYourFuture = ({ onComplete }: ChooseYourFutureProps) => {
               <span className={`typewriter-cursor ${showCursor ? 'visible' : ''}`}>|</span>
             </motion.h1>
 
-            <div className="choice-buttons">
-              {currentStepData.buttons.map((button, index) => (
-                <motion.button
-                  key={index}
-                  className={`choice-button ${button.isGood ? 'good' : 'bad'}`}
-                  onClick={() => handleChoice(button)}
-                  initial={{ opacity: 0 }}
-                  animate={{ opacity: 1 }}
-                  transition={{ delay: 0.5 + index * 0.2 }}
-                  whileHover={{ scale: 1.05, boxShadow: "0 20px 50px rgba(255, 255, 255, 0.2)" }}
-                  whileTap={{ scale: 0.95 }}
-                >
-                  {button.text}
-                </motion.button>
-              ))}
-            </div>
+            {typingDone && (
+              <div className="choice-buttons">
+                {currentStepData.buttons.map((button, index) => (
+                  <motion.button
+                    key={index}
+                    className={`choice-button ${button.isGood ? 'good' : 'bad'}`}
+                    onClick={() => handleChoice(button)}
+                    initial={{ opacity: 0 }}
+                    animate={{ opacity: 1 }}
+                    transition={{ delay: 0.2 + index * 0.2 }}
+                    whileHover={{ scale: 1.05, boxShadow: "0 20px 50px rgba(255, 255, 255, 0.2)" }}
+                    whileTap={{ scale: 0.95 }}
+                  >
+                    {button.text}
+                  </motion.button>
+                ))}
+              </div>
+            )}
           </motion.div>
         ) : (
           <motion.div
