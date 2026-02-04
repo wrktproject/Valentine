@@ -256,7 +256,7 @@ export const TransitionSequence = ({ onComplete, onStarsStart }: TransitionSeque
             exit={{ opacity: 0 }}
             transition={{ duration: 0.1 }}
           >
-            <h1 className="transition-text light-text">
+            <h1 className="transition-text light-text too-much-text">
               {phase === 'too-much' ? (
                 <TypewriterText 
                   text="TOO MUCH!!" 

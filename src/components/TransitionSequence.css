@@ -39,6 +39,11 @@
   text-shadow: none;
 }
 
+.transition-text.too-much-text {
+  min-width: 11ch;
+  text-align: center;
+}
+
 .typewriter-text {
   display: inline;
 }

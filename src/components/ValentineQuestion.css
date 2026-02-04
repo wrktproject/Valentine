@@ -6,7 +6,7 @@
   padding: 40px 20px;
   position: relative;
   overflow: hidden;
-  background: radial-gradient(ellipse at center, #0a0a0f 0%, #030610 100%);
+  background: transparent;
 }
 
 .pink-stars-container {
@@ -103,6 +103,44 @@
   text-align: center;
   position: relative;
   z-index: 10;
+}
+
+.outro-message,
+.outro-goodbye {
+  max-width: 720px;
+  text-align: center;
+  color: #fff;
+  font-size: 1.5rem;
+  line-height: 1.6;
+  text-shadow: 0 0 20px rgba(255, 255, 255, 0.45);
+  z-index: 10;
+  position: relative;
+  padding: 20px 28px;
+  background: rgba(10, 10, 15, 0.5);
+  border: 1px solid rgba(255, 255, 255, 0.12);
+  border-radius: 18px;
+  backdrop-filter: blur(10px);
+}
+
+.outro-goodbye p {
+  margin-bottom: 20px;
+}
+
+.outro-close {
+  padding: 12px 34px;
+  font-size: 1rem;
+  font-weight: 600;
+  color: #f8fafc;
+  background: rgba(255, 255, 255, 0.08);
+  border: 1px solid rgba(255, 255, 255, 0.2);
+  border-radius: 999px;
+  cursor: pointer;
+  transition: transform 0.2s ease, box-shadow 0.2s ease;
+}
+
+.outro-close:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 12px 30px rgba(0, 0, 0, 0.35);
 }
 
 .hearts-explosion {

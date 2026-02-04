@@ -174,19 +174,6 @@ export const VerificationGate = ({ onComplete }: VerificationGateProps) => {
         >
           Unlock
         </motion.button>
-        <motion.button
-          type="button"
-          className="verification-button verification-dev-button"
-          whileHover={{ scale: 1.05 }}
-          whileTap={{ scale: 0.95 }}
-          disabled={isFadingOut}
-          onClick={() => {
-            setIsFadingOut(true);
-            setTimeout(() => onComplete(), 300);
-          }}
-        >
-          Dev: Skip
-        </motion.button>
         {error && <p className="verification-error">{error}</p>}
       </form>
     </div>

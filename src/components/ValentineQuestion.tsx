@@ -1,5 +1,5 @@
 import { useState, useRef, useEffect } from 'react';
-import { motion } from 'framer-motion';
+import { motion, AnimatePresence } from 'framer-motion';
 import './ValentineQuestion.css';
 
 interface ValentineQuestionProps {
@@ -13,6 +13,7 @@ export const ValentineQuestion = ({ onStartPinkStars }: ValentineQuestionProps) 
   const [noButtonPos, setNoButtonPos] = useState({ x: 0, y: 0 });
   const [hasMovedOnce, setHasMovedOnce] = useState(false);
   const [yesClicked, setYesClicked] = useState(false);
+  const [outroStep, setOutroStep] = useState<'celebrate' | 'message' | 'goodbye'>('celebrate');
   const noButtonRef = useRef<HTMLButtonElement>(null);
 
   // Sequenced appearance: stars pink -> title -> yes button -> no button
@@ -32,7 +33,7 @@ export const ValentineQuestion = ({ onStartPinkStars }: ValentineQuestionProps) 
       clearTimeout(yesTimer);
       clearTimeout(noTimer);
     };
-  }, []);
+  }, [onStartPinkStars]);
 
   // Calculate safe position away from cursor
   const getNewPosition = (mouseX: number, mouseY: number) => {
@@ -112,6 +113,26 @@ export const ValentineQuestion = ({ onStartPinkStars }: ValentineQuestionProps) 
     setYesClicked(true);
   };
 
+  useEffect(() => {
+    if (!yesClicked) return;
+    setOutroStep('celebrate');
+
+    const messageTimer = setTimeout(() => setOutroStep('message'), 2600);
+    const goodbyeTimer = setTimeout(() => setOutroStep('goodbye'), 5200);
+
+    return () => {
+      clearTimeout(messageTimer);
+      clearTimeout(goodbyeTimer);
+    };
+  }, [yesClicked]);
+
+  const handleClose = () => {
+    window.close();
+    setTimeout(() => {
+      window.location.href = 'about:blank';
+    }, 150);
+  };
+
   return (
     <div className="valentine-question-container">
       {!yesClicked ? (
@@ -187,75 +208,107 @@ export const ValentineQuestion = ({ onStartPinkStars }: ValentineQuestionProps) 
           </motion.p>
         </div>
       ) : (
-        <motion.div
-          className="success-celebration"
-          initial={{ opacity: 0, scale: 0 }}
-          animate={{ opacity: 1, scale: 1 }}
-          transition={{ duration: 0.8 }}
-        >
-          <motion.div
-            className="hearts-explosion"
-            initial={{ opacity: 0 }}
-            animate={{ opacity: 1 }}
-          >
-            {Array.from({ length: 20 }).map((_, i) => (
+        <AnimatePresence mode="wait">
+          {outroStep === 'celebrate' && (
+            <motion.div
+              key="celebrate"
+              className="success-celebration"
+              initial={{ opacity: 0, scale: 0 }}
+              animate={{ opacity: 1, scale: 1 }}
+              exit={{ opacity: 0, scale: 0.9 }}
+              transition={{ duration: 0.8 }}
+            >
               <motion.div
-                key={i}
-                className="flying-heart"
-                initial={{ 
-                  x: 0, 
-                  y: 0, 
-                  opacity: 1,
-                  scale: 0
-                }}
+                className="hearts-explosion"
+                initial={{ opacity: 0 }}
+                animate={{ opacity: 1 }}
+              >
+                {Array.from({ length: 20 }).map((_, i) => (
+                  <motion.div
+                    key={i}
+                    className="flying-heart"
+                    initial={{
+                      x: 0,
+                      y: 0,
+                      opacity: 1,
+                      scale: 0
+                    }}
+                    animate={{
+                      x: (Math.random() - 0.5) * 400,
+                      y: (Math.random() - 0.5) * 400,
+                      opacity: 0,
+                      scale: [0, 1.5, 0]
+                    }}
+                    transition={{
+                      duration: 2,
+                      delay: i * 0.05,
+                      ease: "easeOut"
+                    }}
+                  >
+                    💖
+                  </motion.div>
+                ))}
+              </motion.div>
+
+              <motion.h1
+                className="celebration-title"
                 animate={{
-                  x: (Math.random() - 0.5) * 400,
-                  y: (Math.random() - 0.5) * 400,
-                  opacity: 0,
-                  scale: [0, 1.5, 0]
+                  scale: [1, 1.1, 1],
                 }}
                 transition={{
-                  duration: 2,
-                  delay: i * 0.05,
-                  ease: "easeOut"
+                  duration: 1,
+                  repeat: Infinity,
                 }}
               >
-                💖
+                🎉 She Said Yes! 🎉
+              </motion.h1>
+
+              <motion.p
+                className="celebration-message"
+                initial={{ opacity: 0, y: 20 }}
+                animate={{ opacity: 1, y: 0 }}
+                transition={{ delay: 0.5 }}
+              >
+                Best. Valentine's. Ever. 💕✨
+              </motion.p>
+
+              <motion.div
+                className="final-hearts"
+                initial={{ opacity: 0 }}
+                animate={{ opacity: 1 }}
+                transition={{ delay: 1 }}
+              >
+                💖💖💖
               </motion.div>
-            ))}
-          </motion.div>
+            </motion.div>
+          )}
 
-          <motion.h1
-            className="celebration-title"
-            animate={{
-              scale: [1, 1.1, 1],
-            }}
-            transition={{
-              duration: 1,
-              repeat: Infinity,
-            }}
-          >
-            🎉 She Said Yes! 🎉
-          </motion.h1>
+          {outroStep === 'message' && (
+            <motion.div
+              key="outro-message"
+              className="outro-message"
+              initial={{ opacity: 0, y: 20 }}
+              animate={{ opacity: 1, y: 0 }}
+              exit={{ opacity: 0, y: -20 }}
+              transition={{ duration: 0.7 }}
+            >
+              From developer Amit to you both right now: I hope you reach this page!
+            </motion.div>
+          )}
 
-          <motion.p
-            className="celebration-message"
-            initial={{ opacity: 0, y: 20 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ delay: 0.5 }}
-          >
-            Best. Valentine's. Ever. 💕✨
-          </motion.p>
-
-          <motion.div
-            className="final-hearts"
-            initial={{ opacity: 0 }}
-            animate={{ opacity: 1 }}
-            transition={{ delay: 1 }}
-          >
-            💖💖💖
-          </motion.div>
-        </motion.div>
+          {outroStep === 'goodbye' && (
+            <motion.div
+              key="outro-goodbye"
+              className="outro-goodbye"
+              initial={{ opacity: 0, y: 20 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ duration: 0.7 }}
+            >
+              <p>From developer Amit to you both right now: I hope you reach this page!</p>
+              <button className="outro-close" onClick={handleClose}>Ok bye</button>
+            </motion.div>
+          )}
+        </AnimatePresence>
       )}
     </div>
   );

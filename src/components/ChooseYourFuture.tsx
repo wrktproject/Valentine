@@ -1,9 +1,9 @@
-import { useState, useMemo } from 'react';
+import { useState, useMemo, useEffect } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import './ChooseYourFuture.css';
-import futureFrameOne from '../assets/WhatsApp Image 2026-02-04 at 14.02.49.jpeg';
-import futureFrameTwo from '../assets/WhatsApp Image 2026-02-04 at 14.03.01.jpeg';
-import futureFrameThree from '../assets/WhatsApp Image 2026-02-04 at 14.03.11.jpeg';
+import futureFrameOne from '../assets/WhatsApp Image 2026-02-04 at 14.03.01.jpeg';
+import futureFrameTwo from '../assets/WhatsApp Image 2026-02-04 at 14.03.11.jpeg';
+import futureFrameThree from '../assets/WhatsApp Image 2026-02-04 at 14.03.20.jpeg';
 
 interface ChooseYourFutureProps {
   onComplete: () => void;
@@ -11,6 +11,8 @@ interface ChooseYourFutureProps {
 
 export const ChooseYourFuture = ({ onComplete }: ChooseYourFutureProps) => {
   const [currentStep, setCurrentStep] = useState(0);
+  const [displayedText, setDisplayedText] = useState('');
+  const [showCursor, setShowCursor] = useState(true);
 
   const steps = [
     {
@@ -21,13 +23,21 @@ export const ChooseYourFuture = ({ onComplete }: ChooseYourFutureProps) => {
 
   const frames = useMemo(() => {
     const frameImages = [futureFrameOne, futureFrameTwo, futureFrameThree];
+    const frameDates = ['24 Nov 2025', '24 Nov 2025', '18 Nov 2025'];
+    const frameLayouts = [
+      { x: 10, y: 32, size: 220, rotate: -6 },
+      { x: 88, y: 26, size: 230, rotate: 5 },
+      { x: 72, y: 74, size: 210, rotate: -4 },
+    ];
+
     return frameImages.map((src, index) => ({
       id: index,
       src,
-      x: 10 + Math.random() * 80,
-      y: 12 + Math.random() * 70,
-      size: 120 + Math.random() * 140,
-      rotate: -5 + Math.random() * 10,
+      date: frameDates[index % frameDates.length],
+      x: frameLayouts[index % frameLayouts.length].x,
+      y: frameLayouts[index % frameLayouts.length].y,
+      size: frameLayouts[index % frameLayouts.length].size,
+      rotate: frameLayouts[index % frameLayouts.length].rotate,
     }));
   }, []);
 
@@ -55,6 +65,61 @@ export const ChooseYourFuture = ({ onComplete }: ChooseYourFutureProps) => {
 
   const currentStepData = steps[currentStep];
 
+  useEffect(() => {
+    let index = 0;
+    let isActive = true;
+
+    const pauseChars = new Set([',', '.', '?', '!', ':', ';']);
+    const slowChars = new Set(['a', 'e', 'i', 'o', 'u', 't', 'h']);
+
+    const typeNext = () => {
+      if (!isActive) return;
+      if (index < currentStepData.text.length) {
+        const nextChar = currentStepData.text[index];
+        const prevChar = index > 0 ? currentStepData.text[index - 1] : '';
+        const isPause = pauseChars.has(nextChar);
+        const isSpace = nextChar === ' ';
+        const isSlow = slowChars.has(nextChar.toLowerCase());
+
+        let delay = 52 + Math.floor(Math.random() * 25);
+
+        if (isPause) {
+          delay = 220 + Math.floor(Math.random() * 180);
+        } else if (isSpace && Math.random() < 0.12) {
+          delay = 200 + Math.floor(Math.random() * 200);
+        } else if (isSlow) {
+          delay += 20 + Math.floor(Math.random() * 25);
+        }
+
+        if (pauseChars.has(prevChar) && isSpace) {
+          delay = 140 + Math.floor(Math.random() * 120);
+        }
+
+        if (Math.random() < 0.06) {
+          delay = Math.floor(delay * 0.5);
+        }
+
+        setDisplayedText(currentStepData.text.slice(0, index + 1));
+        index += 1;
+        setTimeout(typeNext, delay);
+      }
+    };
+
+    setDisplayedText('');
+    typeNext();
+
+    return () => {
+      isActive = false;
+    };
+  }, [currentStepData.text]);
+
+  useEffect(() => {
+    const cursorInterval = setInterval(() => {
+      setShowCursor(prev => !prev);
+    }, 530);
+    return () => clearInterval(cursorInterval);
+  }, []);
+
   return (
     <div className="choose-future-container">
       <div className="future-frames" aria-hidden="true">
@@ -70,6 +135,7 @@ export const ChooseYourFuture = ({ onComplete }: ChooseYourFutureProps) => {
             }}
           >
             <img src={frame.src} alt="" />
+              <span className="future-frame-date">{frame.date}</span>
           </div>
         ))}
       </div>
@@ -89,7 +155,8 @@ export const ChooseYourFuture = ({ onComplete }: ChooseYourFutureProps) => {
               animate={{ y: 0, opacity: 1 }}
               transition={{ delay: 0.3 }}
             >
-              {currentStepData.text}
+              {displayedText}
+              <span className={`typewriter-cursor ${showCursor ? 'visible' : ''}`}>|</span>
             </motion.h1>
 
             <div className="choice-buttons">
@@ -98,8 +165,8 @@ export const ChooseYourFuture = ({ onComplete }: ChooseYourFutureProps) => {
                   key={index}
                   className={`choice-button ${button.isGood ? 'good' : 'bad'}`}
                   onClick={() => handleChoice(button)}
-                  initial={{ x: index === 0 ? -100 : 100, opacity: 0 }}
-                  animate={{ x: 0, opacity: 1 }}
+                  initial={{ opacity: 0 }}
+                  animate={{ opacity: 1 }}
                   transition={{ delay: 0.5 + index * 0.2 }}
                   whileHover={{ scale: 1.05, boxShadow: "0 20px 50px rgba(255, 255, 255, 0.2)" }}
                   whileTap={{ scale: 0.95 }}
@@ -130,7 +197,6 @@ export const ChooseYourFuture = ({ onComplete }: ChooseYourFutureProps) => {
           animate={{ opacity: 1 }}
           transition={{ delay: 1 }}
         >
-          All paths lead to the same question... 💫
         </motion.p>
       )}
     </div>

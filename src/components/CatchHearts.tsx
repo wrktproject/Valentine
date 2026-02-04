@@ -30,43 +30,80 @@ export const CatchHearts = ({ onComplete }: CatchHeartsProps) => {
   const heartsAreaRef = useRef<HTMLDivElement>(null);
   const [hearts, setHearts] = useState<Heart[]>([]);
   const [caughtCount, setCaughtCount] = useState(0);
-  const [showMessage, setShowMessage] = useState<{ text: string; x: number; y: number } | null>(null);
+  const [showMessage, setShowMessage] = useState<{ id: number; text: string; x: number; y: number } | null>(null);
+  const messageTimeoutRef = useRef<number | null>(null);
   const [explosions, setExplosions] = useState<Explosion[]>([]);
   const [showCompletion, setShowCompletion] = useState(false);
 
-  const messages = [
-    "Your smile lights up my world",
-    "I love talking to you",
-    "I miss you when you're not around",
-    "You make me laugh like no one else",
-    "Being with you completes my day",
-    "Your bright energy and dances make me so happy",
-  ];
+  const messages = useMemo(
+    () => [
+      "Your smile lights up my world",
+      "I love talking to you",
+      "I miss you when you're not around",
+      "You make me laugh like no one else",
+      "Being with you completes my day",
+      "Your bright energy and dances make me so happy",
+    ],
+    []
+  );
+
+  const heartPositions = useMemo(
+    () => [
+      { x: 30, y: 8 },
+      { x: 0, y: 16 },
+      { x: 102, y: 26 },
+      { x: 24, y: 56 },
+      { x: 58, y: 58 },
+      { x: 80, y: -36 },
+    ],
+    []
+  );
+
+  const frameLayouts = useMemo(
+    () => [
+      { x: -10, y: -14, size: 150, rotate: -6 },
+      { x: 80, y: 16, size: 140, rotate: 5 },
+      { x: -2, y: 70, size: 160, rotate: 4 },
+      { x: 40, y: 62, size: 150, rotate: -4 },
+      { x: 96, y: 80, size: 140, rotate: -8 },
+      { x: 114, y: -10, size: 140, rotate: 8 },
+    ],
+    []
+  );
 
   const totalHearts = messages.length;
 
   const frames = useMemo(() => {
     const frameImages = [frameOne, frameTwo, frameThree, frameFour, frameFive, frameSix];
+    const frameDates = [
+      '24 Dec 2025',
+      '19 Jan 2026',
+      '26 Jan 2026',
+      '23 Dec 2025',
+      '22 Dec 2025',
+      '9 Dec 2025',
+    ];
+
     return frameImages.map((src, index) => ({
       id: index,
       src,
-      x: 8 + Math.random() * 84,
-      y: 12 + Math.random() * 70,
-      size: 90 + Math.random() * 120,
-      rotate: -6 + Math.random() * 12,
+      x: frameLayouts[index % frameLayouts.length].x,
+      y: frameLayouts[index % frameLayouts.length].y,
+      size: frameLayouts[index % frameLayouts.length].size,
+      rotate: frameLayouts[index % frameLayouts.length].rotate,
+      date: frameDates[index % frameDates.length],
     }));
-  }, []);
+  }, [frameLayouts]);
 
   useEffect(() => {
-    // Generate hearts at random positions
     const generatedHearts: Heart[] = messages.map((message, i) => ({
       id: i,
-      x: Math.random() * 90 + 5, // 5% to 95%
-      y: Math.random() * 80 + 5,
+      x: heartPositions[i % heartPositions.length].x,
+      y: heartPositions[i % heartPositions.length].y,
       message,
     }));
     setHearts(generatedHearts);
-  }, []);
+  }, [heartPositions, messages]);
 
   const catchHeart = (heart: Heart, targetEl: HTMLDivElement) => {
     const area = heartsAreaRef.current;
@@ -99,23 +136,44 @@ export const CatchHearts = ({ onComplete }: CatchHeartsProps) => {
       }, 1200);
     }
 
-    setHearts(hearts.filter(h => h.id !== heart.id));
-    setCaughtCount(caughtCount + 1);
+    setHearts(prev => prev.filter(h => h.id !== heart.id));
 
     // Clamp message position to stay within the hearts area
     const clamp = (value: number, min: number, max: number) => Math.min(Math.max(value, min), max);
     const messageX = clamp(heart.x, 12, 88);
     const messageY = clamp(heart.y, 18, 82);
-    setShowMessage({ text: heart.message, x: messageX, y: messageY });
-
     const messageDuration = 3500;
-    setTimeout(() => setShowMessage(null), messageDuration);
 
-    if (caughtCount + 1 === totalHearts) {
-      setTimeout(() => setShowCompletion(true), messageDuration + 200);
-      setTimeout(() => onComplete(), messageDuration + 1200);
+    if (messageTimeoutRef.current) {
+      window.clearTimeout(messageTimeoutRef.current);
     }
+
+    setShowMessage({
+      id: Date.now(),
+      text: heart.message,
+      x: messageX,
+      y: messageY,
+    });
+
+    messageTimeoutRef.current = window.setTimeout(() => setShowMessage(null), messageDuration);
+
+    setCaughtCount(prev => {
+      const nextCount = prev + 1;
+      if (nextCount === totalHearts) {
+        setTimeout(() => setShowCompletion(true), messageDuration + 200);
+        setTimeout(() => onComplete(), messageDuration + 1200);
+      }
+      return nextCount;
+    });
   };
+
+  useEffect(() => {
+    return () => {
+      if (messageTimeoutRef.current) {
+        window.clearTimeout(messageTimeoutRef.current);
+      }
+    };
+  }, []);
 
   return (
     <div className="catch-hearts-container">
@@ -130,7 +188,7 @@ export const CatchHearts = ({ onComplete }: CatchHeartsProps) => {
       </motion.div>
 
       <div className="hearts-area" ref={heartsAreaRef}>
-        <div className="hearts-frames" aria-hidden="true">
+        <div className="hearts-frames">
           {frames.map(frame => (
             <div
               key={frame.id}
@@ -143,6 +201,7 @@ export const CatchHearts = ({ onComplete }: CatchHeartsProps) => {
               }}
             >
               <img src={frame.src} alt="" />
+              <span className="frame-date">{frame.date}</span>
             </div>
           ))}
         </div>
@@ -223,6 +282,7 @@ export const CatchHearts = ({ onComplete }: CatchHeartsProps) => {
       <AnimatePresence>
         {showMessage && (
           <motion.div
+            key={showMessage.id}
             className="heart-message"
             style={{
               left: `${showMessage.x}%`,
