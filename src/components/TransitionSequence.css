@@ -40,7 +40,8 @@
 }
 
 .transition-text.too-much-text {
-  min-width: 11ch;
+  min-width: 12ch;
+  display: inline-block;
   text-align: center;
 }
 
@@ -56,6 +57,10 @@
 
 .typewriter-cursor.visible {
   opacity: 1;
+}
+
+.typewriter-cursor.invisible {
+  opacity: 0;
 }
 
 .transition-subtitle {

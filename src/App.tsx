@@ -7,6 +7,19 @@ import { ChooseYourFuture } from './components/ChooseYourFuture';
 import { ValentineQuestion } from './components/ValentineQuestion';
 import { VerificationGate } from './components/VerificationGate';
 import { TransitionSequence } from './components/TransitionSequence';
+import pomegranitePhoto from './assets/pomegranite.jpeg';
+import likedYouPhoto from './assets/ilikedyou.jpeg';
+import favoriteDatePhoto from './assets/favoritedate.jpeg';
+import cherishPhoto from './assets/amemoryicherish.jpeg';
+import frameOne from './assets/WhatsApp Image 2026-02-04 at 14.01.07.jpeg';
+import frameTwo from './assets/WhatsApp Image 2026-02-04 at 14.01.32.jpeg';
+import frameThree from './assets/WhatsApp Image 2026-02-04 at 14.01.56.jpeg';
+import frameFour from './assets/WhatsApp Image 2026-02-04 at 14.02.08.jpeg';
+import frameFive from './assets/WhatsApp Image 2026-02-04 at 14.02.19.jpeg';
+import frameSix from './assets/WhatsApp Image 2026-02-04 at 14.02.37.jpeg';
+import futureFrameOne from './assets/WhatsApp Image 2026-02-04 at 14.03.01.jpeg';
+import futureFrameTwo from './assets/WhatsApp Image 2026-02-04 at 14.03.11.jpeg';
+import futureFrameThree from './assets/WhatsApp Image 2026-02-04 at 14.03.20.jpeg';
 import './App.css';
 
 type Stage = 'verify' | 'transition' | 'timeline' | 'hearts' | 'future' | 'question';
@@ -65,6 +78,29 @@ function App() {
       setPinkStars(false);
     }
   }, [currentStage, pinkStars]);
+
+  useEffect(() => {
+    const preloadImages = [
+      pomegranitePhoto,
+      likedYouPhoto,
+      favoriteDatePhoto,
+      cherishPhoto,
+      frameOne,
+      frameTwo,
+      frameThree,
+      frameFour,
+      frameFive,
+      frameSix,
+      futureFrameOne,
+      futureFrameTwo,
+      futureFrameThree,
+    ];
+
+    preloadImages.forEach(src => {
+      const img = new Image();
+      img.src = src;
+    });
+  }, []);
 
   return (
     <div className={`app-container ${pinkStars ? 'pink-stars' : ''}`}>

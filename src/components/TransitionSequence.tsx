@@ -264,7 +264,10 @@ export const TransitionSequence = ({ onComplete, onStarsStart }: TransitionSeque
                   speed={40}
                 />
               ) : (
-                "TOO MUCH!!"
+                <span className="too-much-static">
+                  TOO MUCH!!
+                  <span className="typewriter-cursor invisible">|</span>
+                </span>
               )}
             </h1>
             {phase === 'subtitle' && (

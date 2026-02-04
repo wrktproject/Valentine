@@ -13,7 +13,8 @@ export const ValentineQuestion = ({ onStartPinkStars }: ValentineQuestionProps) 
   const [noButtonPos, setNoButtonPos] = useState({ x: 0, y: 0 });
   const [hasMovedOnce, setHasMovedOnce] = useState(false);
   const [yesClicked, setYesClicked] = useState(false);
-  const [outroStep, setOutroStep] = useState<'celebrate' | 'message' | 'goodbye'>('celebrate');
+  const [outroStep, setOutroStep] = useState<'celebrate' | 'message'>('celebrate');
+  const [showOutroButton, setShowOutroButton] = useState(false);
   const noButtonRef = useRef<HTMLButtonElement>(null);
 
   // Sequenced appearance: stars pink -> title -> yes button -> no button
@@ -116,13 +117,14 @@ export const ValentineQuestion = ({ onStartPinkStars }: ValentineQuestionProps) 
   useEffect(() => {
     if (!yesClicked) return;
     setOutroStep('celebrate');
+    setShowOutroButton(false);
 
     const messageTimer = setTimeout(() => setOutroStep('message'), 2600);
-    const goodbyeTimer = setTimeout(() => setOutroStep('goodbye'), 5200);
+    const buttonTimer = setTimeout(() => setShowOutroButton(true), 4200);
 
     return () => {
       clearTimeout(messageTimer);
-      clearTimeout(goodbyeTimer);
+      clearTimeout(buttonTimer);
     };
   }, [yesClicked]);
 
@@ -292,20 +294,10 @@ export const ValentineQuestion = ({ onStartPinkStars }: ValentineQuestionProps) 
               exit={{ opacity: 0, y: -20 }}
               transition={{ duration: 0.7 }}
             >
-              From developer Amit to you both right now: I hope you reach this page!
-            </motion.div>
-          )}
-
-          {outroStep === 'goodbye' && (
-            <motion.div
-              key="outro-goodbye"
-              className="outro-goodbye"
-              initial={{ opacity: 0, y: 20 }}
-              animate={{ opacity: 1, y: 0 }}
-              transition={{ duration: 0.7 }}
-            >
               <p>From developer Amit to you both right now: I hope you reach this page!</p>
-              <button className="outro-close" onClick={handleClose}>Ok bye</button>
+              {showOutroButton && (
+                <button className="outro-close" onClick={handleClose}>Ok bye</button>
+              )}
             </motion.div>
           )}
         </AnimatePresence>

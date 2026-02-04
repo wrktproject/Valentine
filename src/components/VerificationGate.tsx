@@ -23,7 +23,7 @@ const questions = [
     id: 'flower',
     label: "What's your favorite flower?",
     type: 'text' as const,
-    answer: 'panzie',
+    answer: 'pansy',
   },
   {
     id: 'lastName',
